@@ -9,4 +9,3 @@ title: Recipe Complexity and Ratings Analysis
 
 An investigation into whether more complex recipes receive higher or lower ratings on Food.com.
 
-*More content coming soon...*
