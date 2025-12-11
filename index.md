@@ -51,13 +51,13 @@ Here is the head of the cleaned DataFrame:
 
 ## Univariate Analysis
 
-![Distribution of Number of Steps](dsc80 final plt1.png)
+![Distribution of Number of Steps](dsc80_final_plt1.png)
 
 The distribution of recipe steps is right-skewed, with most recipes containing between 5 and 15 steps. Very few recipes exceed 40 steps.
 
 ## Bivariate Analysis
 
-![Average Rating by Number of Steps](dsc80 final plt4.png)
+![Average Rating by Number of Steps](dsc80_final_plt4.png)
 
 The box plot shows that median ratings remain relatively consistent across complexity groups (around 4.6-4.7), suggesting that the number of steps alone may not strongly influence ratings. However, simpler recipes (1-5 steps) show slightly more variation in ratings.
 
