@@ -72,3 +72,38 @@ The box plot shows that median ratings remain relatively consistent across compl
 | 21+ | 4.647 | 187.23 | 12.84 | 662.62 |
 
 This table shows that while average ratings remain stable across complexity groups, more complex recipes tend to have longer cooking times, more ingredients, and higher calories. Interestingly, the most complex recipes (21+ steps) have the highest average rating at 4.647.
+
+
+## Assessment of Missingness
+
+### NMAR Analysis
+
+We believe the `description` column (70 missing values) is likely **NMAR** (Not Missing At Random). Users may skip writing descriptions for very simple or obvious recipes where they feel no explanation is needed — meaning the missingness depends on the description content itself. Additional data that could help explain this missingness (making it MAR) would be information about the recipe submission interface, such as whether descriptions were required or optional at different time periods.
+
+### Missingness Dependency
+
+We analyzed whether the missingness of `avg_rating` (2,609 missing values) depends on other columns.
+
+**Missingness depends on `n_steps`:**
+
+We performed a permutation test comparing the mean number of steps for recipes with missing ratings versus those with ratings.
+
+- Null Hypothesis: The distribution of `n_steps` is the same for recipes with and without missing ratings.
+- Alternative Hypothesis: The distribution of `n_steps` differs between the two groups.
+- Test Statistic: Difference in means
+- Significance Level: α = 0.05
+
+Result: Observed difference = 1.493, p-value ≈ 0.000. We reject the null hypothesis — the missingness of `avg_rating` **does depend on** `n_steps`. Recipes with missing ratings tend to have more steps.
+
+![Distribution of n_steps by Rating Missingness](dsc80_missingness.png)
+
+**Missingness does not depend on `protein`:**
+
+We performed the same permutation test using the `protein` column.
+
+- Null Hypothesis: The distribution of `protein` is the same for recipes with and without missing ratings.
+- Alternative Hypothesis: The distribution of `protein` differs between the two groups.
+- Test Statistic: Difference in means
+- Significance Level: α = 0.05
+
+Result: Observed difference = 1.287, p-value = 0.194. We fail to reject the null hypothesis — the missingness of `avg_rating` **does not depend on** `protein`.
