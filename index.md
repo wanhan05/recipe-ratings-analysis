@@ -48,3 +48,27 @@ Here is the head of the cleaned DataFrame:
 | 412 broccoli casserole | 306168 | 40 | 6 | 9 | 5.0 | 194.8 |
 | millionaire pound cake | 286009 | 120 | 7 | 7 | 5.0 | 878.3 |
 | 2000 meatloaf | 475785 | 90 | 17 | 13 | 5.0 | 267.0 |
+
+## Univariate Analysis
+
+<iframe src="n_steps_dist.html" width="800" height="600" frameborder="0"></iframe>
+
+The distribution of recipe steps is right-skewed, with most recipes containing between 5 and 15 steps. Very few recipes exceed 40 steps.
+
+## Bivariate Analysis
+
+<iframe src="steps_rating_box.html" width="800" height="600" frameborder="0"></iframe>
+
+The box plot shows that median ratings remain relatively consistent across complexity groups (around 4.6-4.7), suggesting that the number of steps alone may not strongly influence ratings. However, simpler recipes (1-5 steps) show slightly more variation in ratings.
+
+## Interesting Aggregates
+
+| steps_bin | avg_rating | minutes | n_ingredients | calories |
+|-----------|------------|---------|---------------|----------|
+| 1-5 | 4.638 | 67.78 | 6.94 | 330.24 |
+| 6-10 | 4.616 | 124.80 | 8.78 | 403.54 |
+| 11-15 | 4.618 | 117.40 | 10.32 | 466.14 |
+| 16-20 | 4.638 | 135.29 | 11.50 | 542.26 |
+| 21+ | 4.647 | 187.23 | 12.84 | 662.62 |
+
+This table shows that while average ratings remain stable across complexity groups, more complex recipes tend to have longer cooking times, more ingredients, and higher calories. Interestingly, the most complex recipes (21+ steps) have the highest average rating at 4.647.
