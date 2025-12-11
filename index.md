@@ -13,7 +13,7 @@ Have you ever wondered whether spending hours on an elaborate recipe is actually
 
 The dataset contains recipes and user interactions from Food.com. We merged the recipes dataset with user ratings to analyze whether more complex recipes — those with more steps, more ingredients, or longer cooking times — tend to receive higher or lower ratings. This question matters for home cooks deciding how much effort to invest, recipe developers designing new content, and anyone curious about what makes a recipe successful.
 
-**Number of rows:** [RUN `recipes.shape[0]` AND FILL IN]
+**Number of rows:** 83782
 
 ### Relevant Columns
 
