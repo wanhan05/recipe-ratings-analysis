@@ -149,3 +149,21 @@ We tested whether recipe complexity affects average ratings.
 - `calories`, `protein`, `sugar`, `sodium`, etc. — nutrition information
 
 We would **not** know any rating-related information, as ratings come after the recipe is published.
+
+## Baseline Model
+
+**Model:** Logistic Regression
+
+**Features (2 quantitative):**
+- `n_steps` — number of steps in the recipe (quantitative)
+- `n_ingredients` — number of ingredients (quantitative)
+
+**Encoding:** Both features are quantitative, so no categorical encoding was needed. We applied `StandardScaler` to standardize the features to have mean 0 and standard deviation 1, which helps logistic regression converge properly.
+
+**Pipeline:** We implemented the model using a scikit-learn `Pipeline` that first scales the features, then applies logistic regression.
+
+**Performance:**
+- Accuracy: 0.7475
+- F1-score: 0.8555
+
+**Assessment:** This baseline model is decent but not great. The accuracy of 74.75% is only slightly better than always predicting "high rating" (which would give ~73% accuracy). The F1-score of 0.8555 is reasonable, but there is room for improvement. The model only uses two complexity-related features — adding more features like cooking time and nutritional information could improve performance.
