@@ -29,6 +29,8 @@ The dataset contains recipes and user interactions from Food.com. We merged the 
 
 **Central Question:** What is the relationship between recipe complexity and average rating?
 
+---
+
 ## Data Cleaning
 
 We performed the following cleaning steps:
@@ -49,17 +51,23 @@ Here is the head of the cleaned DataFrame:
 | millionaire pound cake | 286009 | 120 | 7 | 7 | 5.0 | 878.3 |
 | 2000 meatloaf | 475785 | 90 | 17 | 13 | 5.0 | 267.0 |
 
+---
+
 ## Univariate Analysis
 
-![Distribution of Number of Steps](dsc80_final_plt1.png)
+<iframe src="assets/n_steps_dist.html" width="800" height="600" frameborder="0"></iframe>
 
 The distribution of recipe steps is right-skewed, with most recipes containing between 5 and 15 steps. Very few recipes exceed 40 steps.
 
+---
+
 ## Bivariate Analysis
 
-![Average Rating by Number of Steps](dsc80_final_plt4.png)
+<iframe src="assets/steps_rating_box.html" width="800" height="600" frameborder="0"></iframe>
 
 The box plot shows that median ratings remain relatively consistent across complexity groups (around 4.6-4.7), suggesting that the number of steps alone may not strongly influence ratings. However, simpler recipes (1-5 steps) show slightly more variation in ratings.
+
+---
 
 ## Interesting Aggregates
 
@@ -73,6 +81,7 @@ The box plot shows that median ratings remain relatively consistent across compl
 
 This table shows that while average ratings remain stable across complexity groups, more complex recipes tend to have longer cooking times, more ingredients, and higher calories. Interestingly, the most complex recipes (21+ steps) have the highest average rating at 4.647.
 
+---
 
 ## Assessment of Missingness
 
@@ -88,25 +97,27 @@ We analyzed whether the missingness of `avg_rating` (2,609 missing values) depen
 
 We performed a permutation test comparing the mean number of steps for recipes with missing ratings versus those with ratings.
 
-- Null Hypothesis: The distribution of `n_steps` is the same for recipes with and without missing ratings.
-- Alternative Hypothesis: The distribution of `n_steps` differs between the two groups.
-- Test Statistic: Difference in means
-- Significance Level: α = 0.05
+- **Null Hypothesis:** The distribution of `n_steps` is the same for recipes with and without missing ratings.
+- **Alternative Hypothesis:** The distribution of `n_steps` differs between the two groups.
+- **Test Statistic:** Difference in means
+- **Significance Level:** α = 0.05
 
 Result: Observed difference = 1.493, p-value ≈ 0.000. We reject the null hypothesis — the missingness of `avg_rating` **does depend on** `n_steps`. Recipes with missing ratings tend to have more steps.
 
-![Distribution of n_steps by Rating Missingness](dsc80_missingness.png)
+<iframe src="assets/missingness_dist.html" width="800" height="600" frameborder="0"></iframe>
 
 **Missingness does not depend on `protein`:**
 
 We performed the same permutation test using the `protein` column.
 
-- Null Hypothesis: The distribution of `protein` is the same for recipes with and without missing ratings.
-- Alternative Hypothesis: The distribution of `protein` differs between the two groups.
-- Test Statistic: Difference in means
-- Significance Level: α = 0.05
+- **Null Hypothesis:** The distribution of `protein` is the same for recipes with and without missing ratings.
+- **Alternative Hypothesis:** The distribution of `protein` differs between the two groups.
+- **Test Statistic:** Difference in means
+- **Significance Level:** α = 0.05
 
 Result: Observed difference = 1.287, p-value = 0.194. We fail to reject the null hypothesis — the missingness of `avg_rating` **does not depend on** `protein`.
+
+---
 
 ## Hypothesis Testing
 
@@ -116,7 +127,7 @@ We tested whether recipe complexity affects average ratings.
 
 **Alternative Hypothesis:** Recipes with high complexity have a different average rating distribution than recipes with low complexity.
 
-**Test Statistic:** Difference in mean ratings (high complexity - low complexity)
+**Test Statistic:** Difference in mean ratings (high complexity − low complexity)
 
 **Significance Level:** α = 0.05
 
@@ -126,11 +137,13 @@ We tested whether recipe complexity affects average ratings.
 - Observed difference: -0.0031
 - P-value: 0.499
 
-![Permutation Test Distribution](permutation_plot.png)
+<iframe src="assets/permutation_test.html" width="800" height="600" frameborder="0"></iframe>
 
-**Conclusion:** With a p-value of 0.499, we fail to reject the null hypothesis at the 0.05 significance level. The observed difference in mean ratings between high and low complexity recipes is not statistically significant. This suggests that the number of steps in a recipe does not have a meaningful effect on its average rating — users rate simple and complex recipes similarly.
+**Conclusion:** With a p-value of 0.499, we fail to reject the null hypothesis at the α = 0.05 significance level. The observed difference in mean ratings between high and low complexity recipes is not statistically significant. This suggests that the number of steps in a recipe does not have a meaningful effect on its average rating — users rate simple and complex recipes similarly.
 
 **Justification:** We chose a permutation test because it makes no assumptions about the underlying distribution of ratings (which is heavily left-skewed). The difference in means is an appropriate test statistic for comparing central tendency between two groups. The median split at 9 steps creates reasonably sized groups for comparison.
+
+---
 
 ## Framing a Prediction Problem
 
@@ -150,6 +163,8 @@ We tested whether recipe complexity affects average ratings.
 
 We would **not** know any rating-related information, as ratings come after the recipe is published.
 
+---
+
 ## Baseline Model
 
 **Model:** Logistic Regression
@@ -168,6 +183,7 @@ We would **not** know any rating-related information, as ratings come after the 
 
 **Assessment:** This baseline model is decent but not great. The accuracy of 74.75% is only slightly better than always predicting "high rating" (which would give ~73% accuracy). The F1-score of 0.8555 is reasonable, but there is room for improvement. The model only uses two complexity-related features — adding more features like cooking time and nutritional information could improve performance.
 
+---
 
 ## Final Model
 
@@ -204,9 +220,11 @@ These features capture relationships between variables that raw features miss. F
 
 **Analysis:** While the F1-score decreased, the final model is actually more useful. The baseline model predicted "high rating" for nearly every recipe (achieving high F1 by exploiting class imbalance). The final model with `class_weight='balanced'` correctly identifies low-rated recipes, as shown in the confusion matrix below. This is more valuable for understanding what makes recipes unsuccessful.
 
-![Confusion Matrix](confusion_matrix_balanced.png)
+<img src="assets/confusion_matrix_balanced.png" alt="Confusion Matrix" width="600">
 
 The model correctly identifies 1,342 low-rated recipes while still catching 8,543 high-rated ones. This tradeoff provides more insight into recipe success factors than simply predicting the majority class.
+
+---
 
 ## Fairness Analysis
 
