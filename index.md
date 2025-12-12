@@ -131,3 +131,21 @@ We tested whether recipe complexity affects average ratings.
 **Conclusion:** With a p-value of 0.499, we fail to reject the null hypothesis at the 0.05 significance level. The observed difference in mean ratings between high and low complexity recipes is not statistically significant. This suggests that the number of steps in a recipe does not have a meaningful effect on its average rating — users rate simple and complex recipes similarly.
 
 **Justification:** We chose a permutation test because it makes no assumptions about the underlying distribution of ratings (which is heavily left-skewed). The difference in means is an appropriate test statistic for comparing central tendency between two groups. The median split at 9 steps creates reasonably sized groups for comparison.
+
+## Framing a Prediction Problem
+
+**Prediction Problem:** Predict whether a recipe will receive a high average rating (≥ 4.5 stars) based on its characteristics.
+
+**Type:** Binary Classification
+
+**Response Variable:** `high_rating` — a binary indicator where 1 means the recipe has an average rating of 4.5 or higher, and 0 means it has a rating below 4.5. We chose this variable because understanding what makes a recipe successful is valuable for recipe developers and home cooks.
+
+**Evaluation Metric:** F1-score. We chose F1-score over accuracy because our classes are imbalanced (73% high-rated vs 27% not). Accuracy would be misleading — a model that predicts "high rating" for everything would achieve 73% accuracy but be useless. F1-score balances precision and recall, giving us a better measure of how well we identify both high and low-rated recipes.
+
+**Features available at time of prediction:** At the time a recipe is posted (before any ratings exist), we would know:
+- `n_steps` — number of steps
+- `n_ingredients` — number of ingredients
+- `minutes` — preparation time
+- `calories`, `protein`, `sugar`, `sodium`, etc. — nutrition information
+
+We would **not** know any rating-related information, as ratings come after the recipe is published.
