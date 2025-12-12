@@ -107,3 +107,27 @@ We performed the same permutation test using the `protein` column.
 - Significance Level: α = 0.05
 
 Result: Observed difference = 1.287, p-value = 0.194. We fail to reject the null hypothesis — the missingness of `avg_rating` **does not depend on** `protein`.
+
+## Hypothesis Testing
+
+We tested whether recipe complexity affects average ratings.
+
+**Null Hypothesis:** Recipes with high complexity (more than 9 steps) and recipes with low complexity (9 or fewer steps) have the same average rating distribution. Any observed difference is due to random chance.
+
+**Alternative Hypothesis:** Recipes with high complexity have a different average rating distribution than recipes with low complexity.
+
+**Test Statistic:** Difference in mean ratings (high complexity - low complexity)
+
+**Significance Level:** α = 0.05
+
+**Results:**
+- High complexity recipes (n = 36,362): mean rating = 4.624
+- Low complexity recipes (n = 44,811): mean rating = 4.627
+- Observed difference: -0.0031
+- P-value: 0.499
+
+![Permutation Test Distribution](permutation_plot.png)
+
+**Conclusion:** With a p-value of 0.499, we fail to reject the null hypothesis at the 0.05 significance level. The observed difference in mean ratings between high and low complexity recipes is not statistically significant. This suggests that the number of steps in a recipe does not have a meaningful effect on its average rating — users rate simple and complex recipes similarly.
+
+**Justification:** We chose a permutation test because it makes no assumptions about the underlying distribution of ratings (which is heavily left-skewed). The difference in means is an appropriate test statistic for comparing central tendency between two groups. The median split at 9 steps creates reasonably sized groups for comparison.
