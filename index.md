@@ -167,3 +167,43 @@ We would **not** know any rating-related information, as ratings come after the 
 - F1-score: 0.8555
 
 **Assessment:** This baseline model is decent but not great. The accuracy of 74.75% is only slightly better than always predicting "high rating" (which would give ~73% accuracy). The F1-score of 0.8555 is reasonable, but there is room for improvement. The model only uses two complexity-related features — adding more features like cooking time and nutritional information could improve performance.
+
+
+## Final Model
+
+**Model:** Random Forest Classifier with class weight balancing
+
+**New Features Engineered:**
+- `steps_per_ingredient` — ratio of steps to ingredients, captures how detailed each ingredient's preparation is
+- `calories_per_ingredient` — nutritional density per ingredient
+- `complexity_score` — product of steps and ingredients, captures overall recipe complexity
+- `time_per_step` — average time spent per step, indicates complexity of individual steps
+
+These features capture relationships between variables that raw features miss. For example, a recipe with 20 steps and 5 ingredients is more complex per-ingredient than one with 20 steps and 20 ingredients.
+
+**Additional Features:** `minutes`, `calories`, `protein` — cooking time and nutritional information available at time of posting.
+
+**Preprocessing:** `QuantileTransformer` applied to all features to handle outliers (e.g., recipes with extreme cooking times) and normalize skewed distributions.
+
+**Hyperparameter Tuning:** We used `GridSearchCV` with 5-fold cross-validation, tuning:
+- `n_estimators`: [100, 200] — number of trees
+- `max_depth`: [5, 10, 15] — tree depth to control overfitting
+- `min_samples_split`: [5, 10, 20] — minimum samples to split a node
+
+**Best Hyperparameters:**
+- `n_estimators`: 200
+- `max_depth`: 15
+- `min_samples_split`: 5
+
+**Performance Comparison:**
+
+| Model | Accuracy | F1-score |
+|-------|----------|----------|
+| Baseline | 0.7475 | 0.8555 |
+| Final | 0.6089 | 0.7290 |
+
+**Analysis:** While the F1-score decreased, the final model is actually more useful. The baseline model predicted "high rating" for nearly every recipe (achieving high F1 by exploiting class imbalance). The final model with `class_weight='balanced'` correctly identifies low-rated recipes, as shown in the confusion matrix below. This is more valuable for understanding what makes recipes unsuccessful.
+
+![Confusion Matrix](confusion_matrix_balanced.png)
+
+The model correctly identifies 1,342 low-rated recipes while still catching 8,543 high-rated ones. This tradeoff provides more insight into recipe success factors than simply predicting the majority class.
