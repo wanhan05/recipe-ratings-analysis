@@ -207,3 +207,26 @@ These features capture relationships between variables that raw features miss. F
 ![Confusion Matrix](confusion_matrix_balanced.png)
 
 The model correctly identifies 1,342 low-rated recipes while still catching 8,543 high-rated ones. This tradeoff provides more insight into recipe success factors than simply predicting the majority class.
+
+## Fairness Analysis
+
+We analyzed whether our model performs fairly across recipes of different complexity levels.
+
+**Groups:**
+- **Simple recipes:** 9 or fewer steps
+- **Complex recipes:** more than 9 steps
+
+**Evaluation Metric:** Precision — the proportion of predicted high-rated recipes that are actually high-rated.
+
+**Null Hypothesis:** Our model is fair. Its precision for simple recipes and complex recipes are roughly the same, and any differences are due to random chance.
+
+**Alternative Hypothesis:** Our model is unfair. Its precision for simple recipes is different from its precision for complex recipes.
+
+**Results:**
+- Precision (simple recipes): 0.7589
+- Precision (complex recipes): 0.7527
+- Observed difference: 0.0062
+- P-value: 0.437
+
+**Conclusion:** With a p-value of 0.437, we fail to reject the null hypothesis at the 0.05 significance level. There is no statistically significant difference in precision between simple and complex recipes. Our model appears to perform fairly across recipe complexity groups — it does not systematically favor simple or complex recipes when predicting high ratings.
+
